@@ -17,7 +17,7 @@ public:
     virtual void postMessage(std::string message)
     {}
 
-    virtual std::string commandEntered() 
+    static std::string commandEntered() 
     {
         return "commandEntered";
     }
@@ -46,7 +46,7 @@ public:
 
             for(auto t : tokenize)
             {
-                std:: cout << t << std::endl;
+                //std:: cout << t << std::endl;
                 if(buffer == "exit")
                     return;
                 else

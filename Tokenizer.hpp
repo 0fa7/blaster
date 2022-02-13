@@ -29,6 +29,7 @@ public:
         {
             string t;
             ranges::transform(*i, back_inserter<string>(t), ::tolower);
+            std::cout << t << std::endl;
             tokens_.push_back( std::move(t) );
         }
     }
