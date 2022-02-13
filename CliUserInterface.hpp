@@ -2,8 +2,14 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
-class UserInterface
+#include "Tokenizer.hpp"
+#include "Publisher.hpp"
+
+using std::istringstream;
+
+class UserInterface : public Publisher
 {
 public:
     virtual ~UserInterface() = default;
@@ -22,7 +28,9 @@ class CliUserInterface : public UserInterface
 public:
     CliUserInterface(std::istream& in, std::ostream& out) :
         in_(in), out_(out)
-    {}
+    {
+        registerEvent(commandEntered());
+    }
 
     ~CliUserInterface() override 
     {}
@@ -33,14 +41,23 @@ public:
 
         while(std::getline(in_, buffer, '\n'))
         {   
-            //auto tokens;
-            if(buffer == "exit")
-                return;
-            else
-                std::cout << ":" << buffer << std::endl;
-            
+            istringstream ts(buffer);
+            Tokenizer tokenize(ts);
+
+            for(auto t : tokenize)
+            {
+                std:: cout << t << std::endl;
+                if(buffer == "exit")
+                    return;
+                else
+                {
+                    raise(commandEntered(), buffer);
+                }
+            }
         }
     }
+
+
 
 private:
     std::istream& in_;
