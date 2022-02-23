@@ -2,7 +2,9 @@
 
 #include <filesystem>
 
-class Mp3Player
+#include "Publisher.hpp"
+
+class Mp3Player : public Publisher
 {
 public:
     struct Mp3PlayerState

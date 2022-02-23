@@ -21,14 +21,14 @@ public:
 
     void execute()
     {
-    }
-
-    void executeImpl()
-    {
+        executeImpl();
     }
 
     void deallocate()
     {}
+
+protected:
+    virtual void executeImpl() = 0;
 };
 
 inline void CommandDeleter(Command* p)
@@ -37,4 +37,30 @@ inline void CommandDeleter(Command* p)
         p->deallocate();
 }
 
+class Play : public Command
+{
+public:
+    Play(string_view song) : song_(song)
+    {}
+
+    ~Play() = default;
+
+private:
+    void executeImpl() override
+    {}
+
+    std::string song_;
+};
+
 using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
+
+template<typename T, typename... Args>
+auto MakeCommandPtr(Args&&... args) requires std::derived_from<T, Command>
+{
+    return CommandPtr{new T{std::forward<Args>(args)...}, &CommandDeleter};
+}
+
+inline auto MakeCommandPtr(Command* p)
+{
+    return CommandPtr{p, &CommandDeleter};
+}

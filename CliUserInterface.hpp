@@ -46,18 +46,13 @@ public:
 
             for(auto t : tokenize)
             {
-                //std:: cout << t << std::endl;
-                if(buffer == "exit")
+                if(t == "exit")
                     return;
                 else
-                {
-                    raise(commandEntered(), buffer);
-                }
+                    raise(commandEntered(), t);
             }
         }
     }
-
-
 
 private:
     std::istream& in_;

@@ -13,7 +13,7 @@ int main()
 
     RegisterCoreCommands(cli);
 
-    cli.attach(UserInterface::commandEntered(), make_unique<CommandIssuedObserver>());
+    cli.attach(UserInterface::commandEntered(), make_unique<CommandIssuedObserver>(ci));
 
     // attach cli to state changed entered event in mp3player
 
