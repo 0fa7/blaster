@@ -37,21 +37,6 @@ inline void CommandDeleter(Command* p)
         p->deallocate();
 }
 
-class Play : public Command
-{
-public:
-    Play(string_view song) : song_(song)
-    {}
-
-    ~Play() = default;
-
-private:
-    void executeImpl() override
-    {}
-
-    std::string song_;
-};
-
 using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
 
 template<typename T, typename... Args>

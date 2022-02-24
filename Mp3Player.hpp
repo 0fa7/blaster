@@ -4,35 +4,77 @@
 
 #include "Publisher.hpp"
 
-class Mp3Player : public Publisher
+class Mp3PlayerErrorData
 {
 public:
-    struct Mp3PlayerState
-    {
-        bool isPlaying_ = false;
-    };
-    
-    void play(std::filesystem::path path)
-    {
-        stop();
+    enum class ErrorConditions { Empty, TooFewArguments };
+    explicit Mp3PlayerErrorData(ErrorConditions e) : err_(e) { }
 
-        // os/lib call to play audio
-        state_.isPlaying_ = true;
-    }
+    static const char* Message(ErrorConditions ec);
+    const char* message() const;
+    ErrorConditions error() const { return err_; }
 
-    void stop()
-    {
-        if(state_.isPlaying_)
-        {
-            // os/lib call to stop audio
-            state_.isPlaying_ = false;
-        }
-    }
-
-    void playStateChanged()
-    { 
-    }
-
-    Mp3PlayerState state_;
-    
+private:
+    ErrorConditions err_;
 };
+
+class Mp3Player : private Publisher
+{
+public:
+    static Mp3Player& Instance();
+    void play();
+    void stop();
+
+    using Publisher::attach;
+    using Publisher::detach;
+
+    static string Mp3PlayerChanged();
+    static string Mp3PlayerError();
+
+private:
+    Mp3Player();
+    ~Mp3Player() = default;
+    Mp3Player(const Mp3Player&) = delete;
+    Mp3Player(Mp3Player&&) = delete;
+    Mp3Player& operator=(const Mp3Player&) = delete;
+    Mp3Player& operator=(const Mp3Player&&) = delete;
+
+    bool isPlaying_ = false;
+};
+
+string Mp3Player::Mp3PlayerChanged()
+{
+    return "Mp3PlayerChanged";
+}
+
+string Mp3Player::Mp3PlayerError()
+{
+    return "error";
+}
+
+const char* Mp3PlayerErrorData::Message(Mp3PlayerErrorData::ErrorConditions ec)
+{
+    switch(ec)
+    {
+    case ErrorConditions::Empty: return "Attempting to pop empty Mp3Player";
+    case ErrorConditions::TooFewArguments: return "Need at least two Mp3Player elements to swap top";
+    default: return "Unknown error";
+    };
+}
+
+const char* Mp3PlayerErrorData::message() const
+{
+    return Message(err_);
+}
+
+Mp3Player& Mp3Player::Instance()
+{
+    static Mp3Player instance;
+    return instance;
+}
+
+Mp3Player::Mp3Player()
+{
+    registerEvent( Mp3PlayerChanged() );
+    registerEvent( Mp3PlayerError() );
+}

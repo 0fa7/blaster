@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "CommandManager.hpp"
+#include "CoreCommands.hpp"
 
 using std::make_unique;
 
@@ -28,8 +29,8 @@ public:
 
             if(sv == "play")
                 cm_.executeCommand(MakeCommandPtr<Play>(command));
-            //else if(sv == "stop")
-            //    cm_.executeCommand();
+            else if(sv == "stop")
+                cm_.executeCommand(MakeCommandPtr<Stop>());
         }
 
         CommandManager cm_;
