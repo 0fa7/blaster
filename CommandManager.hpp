@@ -10,9 +10,6 @@ public:
 
     void executeCommand(CommandPtr c)
     {
-    }
-
-    void executeCommand()
-    {
+        c->execute();
     }
 };

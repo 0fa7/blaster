@@ -13,7 +13,9 @@ public:
 
 private:
     void executeImpl() override
-    {}
+    {
+        std::cout << "PLAY" << std::endl;
+    }
 
     std::string song_;
 };
@@ -28,5 +30,7 @@ public:
 
 private:
     void executeImpl() override
-    {}
+    {
+        std::cout << "STOP" << std::endl;
+    }
 };
