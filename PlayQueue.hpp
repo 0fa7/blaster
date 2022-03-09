@@ -5,6 +5,9 @@
 
 #include "Publisher.hpp"
 
+using std::string;
+using std::string_view;
+
 class PlayQueue
 {
 public:
@@ -14,12 +17,12 @@ public:
         return instance;
     }
     
-    void add(std::string_view song)
+    void add(string_view song)
     {
         playList_ = song;
     }
 
-    void remove(std::string_view song)
+    void remove(string_view song)
     {
         if(playList_ == song)
             playList_ = "";
@@ -28,12 +31,12 @@ public:
     void clear()
     {}
 
-    static std::string PlayQueueChanged()
+    static string PlayQueueChanged()
     {
         return "";
     }
     
-    static std::string PlayQueueError()
+    static string PlayQueueError()
     {
         return "";
     }
@@ -52,5 +55,5 @@ private:
     
     PlayQueue& operator=(const PlayQueue&&) = delete;
 
-    std::string playList_;
+    string playList_;
 };
