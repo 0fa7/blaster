@@ -22,8 +22,11 @@ class Mp3Player : private Publisher
 {
 public:
     static Mp3Player& Instance();
-    void play();
-    void stop();
+    void play(string_view song, bool suppressChangeEvent = false);
+    void start(bool suppressChangeEvent = false);
+    void stop(bool suppressChangeEvent = false);
+    void add(string_view song, bool suppressChangeEvent = false);
+    void remove(bool suppressChangeEvent = false);
 
     using Publisher::attach;
     using Publisher::detach;
@@ -39,8 +42,25 @@ private:
     Mp3Player& operator=(const Mp3Player&) = delete;
     Mp3Player& operator=(const Mp3Player&&) = delete;
 
+    string song_ = "";
     bool isPlaying_ = false;
 };
+
+void Mp3Player::play(string_view song, bool suppressChangeEvent)
+{}
+
+void Mp3Player::start(bool suppressChangeEvent)
+{}
+
+void Mp3Player::stop(bool suppressChangeEvent)
+{}
+
+void Mp3Player::add(string_view song, bool suppressChangeEvent)
+{}
+
+void Mp3Player::remove(bool suppressChangeEvent)
+{}
+
 
 string Mp3Player::Mp3PlayerChanged()
 {
