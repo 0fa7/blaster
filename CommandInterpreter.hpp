@@ -28,9 +28,19 @@ public:
             string_view sv{command};
 
             if(sv == "play")
-                cm_.executeCommand(MakeCommandPtr<Play>(command));
+            {
+                cm_.executeCommand(MakeCommandPtr<Add>(command));
+                cm_.executeCommand(MakeCommandPtr<Start>());
+            }
+            else if(sv == "start")
+                cm_.executeCommand(MakeCommandPtr<Start>());
             else if(sv == "stop")
                 cm_.executeCommand(MakeCommandPtr<Stop>());
+            else if(sv == "add")
+                cm_.executeCommand(MakeCommandPtr<Add>(command));
+            else if(sv == "remove")
+                cm_.executeCommand(MakeCommandPtr<Remove>());
+            
         }
 
         CommandManager cm_;
