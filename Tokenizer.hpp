@@ -33,6 +33,11 @@ public:
         }
     }
 
+    auto operator[](int i)
+    {
+        return tokens_[i];
+    }
+
     auto begin()
     {
         return tokens_.begin();
@@ -41,6 +46,11 @@ public:
     auto end()
     {
         return tokens_.end();
+    }
+
+    auto size()
+    {
+        return tokens_.size();
     }
 
     vector<string> tokens_;

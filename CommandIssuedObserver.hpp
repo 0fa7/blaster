@@ -15,8 +15,8 @@ public:
 
     void notifyImpl(const any& data) override
     {
-        auto cmd = std::any_cast<string>(data);
-        ci_.commandEntered(cmd);
+        auto cmds = std::any_cast<vector<string>>(data);
+        ci_.commandEntered(cmds);
     }
 
     CommandInterpreter& ci_;

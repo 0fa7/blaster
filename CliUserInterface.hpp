@@ -44,12 +44,12 @@ public:
             istringstream ts(buffer);
             Tokenizer tokenize(ts);
 
-            for(auto t : tokenize)
+            if(tokenize.size() > 0)
             {
-                if(t == "exit")
+                if(tokenize[0] == "exit")
                     return;
                 else
-                    raise(commandEntered(), t);
+                    raise(commandEntered(), tokenize.tokens_);        
             }
         }
     }
